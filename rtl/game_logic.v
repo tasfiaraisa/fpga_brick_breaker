@@ -1,4 +1,4 @@
-// State machine: READY -> PLAYING -> WON/LOST; space restarts.
+// State machine: READY -> PLAYING -> WON/LOST; Enter starts/restarts.
 module game_logic(input wire clk, reset_n, frame_tick, start_event, won, lost,
  output reg [1:0] state, output wire init_game, step_game);
  localparam READY=2'd0, PLAYING=2'd1, WON=2'd2, LOST=2'd3;

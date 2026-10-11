@@ -5,8 +5,8 @@ module vga_paint(input wire [9:0] x,y, input wire active,
  output reg [7:0] red,green,blue);
  localparam READY=2'd0, PLAYING=2'd1, WON=2'd2, LOST=2'd3;
  localparam integer BX=56,BY=58,BW=88,BH=22,GAP=8;
- wire [12:0] rom_address=(y[9:3]*13'd80)+x[9:3];
- wire splash_pixel;
+ wire [14:0] rom_address=(y[9:2]*15'd160)+x[9:2];
+ wire [2:0] splash_pixel;
  start_screen_rom splash(rom_address,splash_pixel);
  reg brick_pixel;
  integer r,c;
@@ -22,7 +22,16 @@ module vga_paint(input wire [9:0] x,y, input wire active,
   if (active) begin
    red=8'h12;green=8'h13;blue=8'h25;
    if (state==READY) begin
-    if (splash_pixel) begin red=8'hff;green=8'hd0;blue=8'h9c;end
+    case (splash_pixel)
+     3'd0: begin red=8'd64; green=8'd64; blue=8'd64; end
+     3'd1: begin red=8'd250; green=8'd250; blue=8'd250; end
+     3'd2: begin red=8'd240; green=8'd30; blue=8'd38; end
+     3'd3: begin red=8'd24; green=8'd174; blue=8'd78; end
+     3'd4: begin red=8'd255; green=8'd224; blue=8'd0; end
+     3'd5: begin red=8'd0; green=8'd180; blue=8'd224; end
+     3'd6: begin red=8'd255; green=8'd150; blue=8'd175; end
+     3'd7: begin red=8'd255; green=8'd126; blue=8'd0; end
+    endcase
    end else if (state==WON) begin
     red=8'h13;green=8'h75;blue=8'h52;
    end else if (state==LOST) begin

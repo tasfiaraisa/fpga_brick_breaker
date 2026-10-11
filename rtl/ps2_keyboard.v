@@ -15,7 +15,7 @@ module ps2_keyboard(input wire clk, reset_n, ps2_clk, ps2_dat,
     else begin
      if (code==8'h1C || (extended && code==8'h6B)) left_down<=!break_code;
      if (code==8'h23 || (extended && code==8'h74)) right_down<=!break_code;
-     if (code==8'h29 && !break_code) start_event<=1;
+     if (code==8'h5A && !break_code) start_event<=1;
      break_code<=0; extended<=0;
     end
    end
